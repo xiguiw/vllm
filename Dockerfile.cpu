@@ -23,6 +23,8 @@ RUN pip install --upgrade pip \
 FROM cpu-test-1 AS build
 
 COPY ./ /workspace/vllm
+COPY ./examples/run.sh /workspace/
+RUN chmod +x /workspace/run.sh
 
 WORKDIR /workspace/vllm
 
@@ -38,4 +40,4 @@ WORKDIR /workspace/
 
 RUN ln -s /workspace/vllm/tests && ln -s /workspace/vllm/examples && ln -s /workspace/vllm/benchmarks
 
-ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]
+ENTRYPOINT ["/workspace/run.sh"]
